@@ -1,0 +1,12 @@
+{
+  "name": "horloge24",
+  "version": "1.0.0",
+  "description": "Développer une horloge numérique interactive basée sur un format de 24 heures, permettant de visualiser les moments clés de la journée solaire (lever du soleil, zénith, coucher du soleil). L'horloge intègre des dégradés visuels pour illustrer les différentes phases du jour et de la nuit, avec une ligne d’horizon ajustée en fonction des saisons.",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC"
+}
