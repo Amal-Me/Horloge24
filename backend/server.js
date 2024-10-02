@@ -30,6 +30,9 @@ app.get('/api/sun-times', async (req, res) => {
       res.json({
         sunrise: sunTimes.sunrise,
         sunset: sunTimes.sunset,
+        solarNoon: sunTimes.solar_noon,  // Zénith
+        civilTwilightBegin: sunTimes.civil_twilight_begin,  // Premières lueurs
+        civilTwilightEnd: sunTimes.civil_twilight_end  // Dernières lueurs
       });
     } catch (error) {
       res.status(500).json({ error: 'Erreur lors de la récupération des horaires solaires' });
