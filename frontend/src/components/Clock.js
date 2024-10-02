@@ -9,6 +9,7 @@ function Clock() {
   // Récupérer les données du store Redux
   const {sunrise, sunset, solarNoon } = useSelector((state) => state.sunTimes);
 
+  // Mettre à jour l'heure actuelle toutes les minutes
   useEffect(() => {
     const interval = setInterval(() => {
       setTime(moment.tz(new Date(), moment.tz.guess()));
@@ -22,7 +23,7 @@ function Clock() {
     return (totalMinutes / 1440) * 360; // 1440 minutes dans 24 heures
   }
 
-  // Convertir les événements solaires en heures locales
+  // Convertir les événements solaires en heures locales (fuseau horaire)
   const sunriseDate = sunrise ? moment.tz(sunrise, moment.tz.guess()) : null;
   const sunsetDate = sunset ? moment.tz(sunset, moment.tz.guess()) : null;
   const solarNoonDate = solarNoon ? moment.tz(solarNoon, moment.tz.guess()) : null;
@@ -33,7 +34,7 @@ function Clock() {
   // Ajustement pour que le zénith soit toujours en haut (0°)
   const zenithAdjustment = solarNoonDegrees ? (360 - solarNoonDegrees) : 0;
 
-    // On ajoute un décalage de 90° pour l'aiguille et les repères
+    // On ajoute un décalage de -90° pour l'aiguille et les repères car en css le 0° est a 90°
     const correctedAdjustment = zenithAdjustment - 90;
 
 
@@ -48,13 +49,6 @@ function Clock() {
     const sunriseDegrees = sunriseDate ? (timeToDegrees(sunriseDate.hours(), sunriseDate.minutes()) + correctedAdjustment) % 360 : null;
     const sunsetDegrees = sunsetDate ? (timeToDegrees(sunsetDate.hours(), sunsetDate.minutes()) + correctedAdjustment) % 360 : null;
   
-
-  // Calculer les angles pour le lever et le coucher du soleil avec ajustement
-  //const sunriseDegrees = sunriseDate ? (timeToDegrees(sunriseDate.hours(), sunriseDate.minutes()) + zenithAdjustment) % 360 : null;
-  //const sunsetDegrees = sunsetDate ? (timeToDegrees(sunsetDate.hours(), sunsetDate.minutes()) + zenithAdjustment) % 360 : null;
-
-  
-  //const currentDegrees = (timeToDegrees(currentHours, currentMinutes) + zenithAdjustment) % 360;
 
   // Logs pour vérifier les angles
   console.log("Current Degrees:", currentDegrees);
@@ -79,6 +73,7 @@ function Clock() {
       {/* Un repère unique pour le lever */}
       {sunriseDegrees !== null && (
         <div className="marker" style={{ transform: `rotate(${sunriseDegrees}deg)` }}>
+           {/* on inverse l'écriture pour qu'elle soit horizontale */}
           <div className="marker-label"style={{ transform: `rotate(${-sunriseDegrees}deg)` }}>Lever</div>
         </div>
       )}
