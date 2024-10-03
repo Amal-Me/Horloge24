@@ -52,15 +52,34 @@ function Clock() {
     const sunriseDegrees = sunriseDate ? (timeToDegrees(sunriseDate.hours(), sunriseDate.minutes()) + correctedAdjustment) % 360 : null;
     const sunsetDegrees = sunsetDate ? (timeToDegrees(sunsetDate.hours(), sunsetDate.minutes()) + correctedAdjustment) % 360 : null;
   
+ 
 
-  // Logs pour vérifier les angles
-  console.log("Current Degrees:", currentDegrees);
-  console.log("Sunrise Degrees:", sunriseDegrees);
-  console.log("Sunset Degrees:", sunsetDegrees);
-  console.log("Solar Noon Degrees:", solarNoonDegrees);
+// Conic-gradient avec les valeurs ajustées pour un dégradé dynamique
+const backgroundStyle = {
+  background: `conic-gradient(
+    from ${sunsetDegrees +90}deg,    /* On démarre au coucher du soleil */
+    #001f3f ${sunriseDegrees - 20}deg, /* Nuit */
+    #0074D9 ${sunriseDegrees }deg,   /* Lever de soleil */
+    #FFF700 ${sunriseDegrees + 90}deg,  /* Lever */
+    #FFD700 ${correctedAdjustment }deg,   /* Zénith */
+    #FFD700 ${correctedAdjustment + 60}deg,   /* Zénith */
+    #FF851B ${sunsetDegrees - 20}deg      /* Après-midi */
+  )`,
+};
 
+// Logs
+//console.log('Night Start (Coucher):', adjustedNightStart);
+//console.log('Night End (Lever):', adjustedNightEnd);
+  
+
+
+  
+  
+  
   return (
-    <div className="clock">
+    <div className="clock-container">
+ 
+    <div className="clock" style={backgroundStyle}>
       {/* Aiguille de l'horloge */}
       <div className="hand" style={{ transform: `rotate(${currentDegrees}deg)` }}></div>
 
@@ -85,6 +104,7 @@ function Clock() {
        {/* Ajouter la ligne horizontale */}
        <HorizonLine sunriseDegrees={sunriseDegrees} sunsetDegrees={sunsetDegrees} radius={radius} />
     </div>
+  </div>
   );
 }
 
