@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { useSelector } from 'react-redux';
 import moment from 'moment-timezone';
+import HorizonLine from './HorizonLine';
 import './../Clock.css';
 
 function Clock() {
@@ -22,6 +23,8 @@ function Clock() {
     const totalMinutes = hour * 60 + minute;
     return (totalMinutes / 1440) * 360; // 1440 minutes dans 24 heures
   }
+
+  const radius = 300; // Rayon de l'horloge
 
   // Convertir les événements solaires en heures locales (fuseau horaire)
   const sunriseDate = sunrise ? moment.tz(sunrise, moment.tz.guess()) : null;
@@ -70,20 +73,7 @@ function Clock() {
         </div>
       ))}
 
-      {/* Un repère unique pour le lever */}
-      {sunriseDegrees !== null && (
-        <div className="marker" style={{ transform: `rotate(${sunriseDegrees}deg)` }}>
-           {/* on inverse l'écriture pour qu'elle soit horizontale */}
-          <div className="marker-label"style={{ transform: `rotate(${-sunriseDegrees}deg)` }}>Lever</div>
-        </div>
-      )}
-
-      {/* Un repère unique pour le coucher */}
-      {sunsetDegrees !== null && (
-        <div className="marker" style={{ transform: `rotate(${sunsetDegrees}deg)` }}>
-          <div className="marker-label"style={{ transform: `rotate(${-sunsetDegrees}deg)` }}>Coucher</div>
-        </div>
-      )}
+    
 
       {/* Le repère du zénith, toujours en haut */}
       {solarNoonDegrees !== null && (
@@ -91,6 +81,9 @@ function Clock() {
           <div className="marker-label"style={{ transform: 'rotate(90deg)' }}>Zénith</div>
         </div>
       )}
+
+       {/* Ajouter la ligne horizontale */}
+       <HorizonLine sunriseDegrees={sunriseDegrees} sunsetDegrees={sunsetDegrees} radius={radius} />
     </div>
   );
 }
