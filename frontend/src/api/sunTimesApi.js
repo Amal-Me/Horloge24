@@ -6,4 +6,4 @@ export const getSunTimes = async (lat, lng) => {
     }
     return response.json(); // Renvoie les données pour les utiliser dans Redux
   };
-  
+ 

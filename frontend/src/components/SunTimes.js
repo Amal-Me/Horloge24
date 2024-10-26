@@ -41,6 +41,7 @@ function SunTimes() {
   console.log('Sunrise:', sunrise);
   console.log('SolarNoon:', solarNoon);
   console.log('Civil Twilight Begin:', civilTwilightBegin);
+
   
   // Conversion des heures UTC en heure locale
   const localSunrise = sunrise ? moment.utc(sunrise).tz(userTimeZone).format('HH:mm') : ''; // lever
