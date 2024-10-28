@@ -2,6 +2,7 @@
   position: relative;
   width: 600px;
   height: 600px;
+  margin: 20% auto;
 }
 
 /* Style de base de l'horloge */
@@ -22,7 +23,8 @@
   height: 100%;
   top: 0;
   left: 0;
-  z-index: 0; /* Comme dans votre CSS actuel */
+  z-index: 0; /* Superposition devant l'horloge */
+  clip-path: circle(50% at 50% 50%); /* Cercle au centre */
   transition: clip-path 0.3s ease; /* Animation douce quand la forme change */
 }
 
@@ -48,6 +50,26 @@
   align-items: center;
 }
 
+.marker {
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background-color: rgb(235, 116, 18); /* You can change this color */
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 50%;
+ /* transform: rotate(0deg); /* Rotation initiale */
+  
+}
+
+.marker-label {
+  position: absolute;
+  top: -10px;
+  left: 110%;
+  font-size: 30px;
+  color: rgb(0, 0, 0);
+  /*transform: rotate(90deg); /* Ajuste selon les besoins pour corriger l'inversion */
+}
 .hour-number {
   position: absolute;
   top: 2%;
