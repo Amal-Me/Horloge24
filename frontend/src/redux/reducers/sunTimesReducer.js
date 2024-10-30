@@ -1,27 +1,33 @@
+// sunTimesReducer.js
 const initialState = {
   sunrise: '',
   sunset: '',
-  solarNoon: '',  // Initialiser solarNoon
-  civilTwilightBegin: '',  // Initialiser civilTwilightBegin
-  civilTwilightEnd: '',  // Initialiser civilTwilightEnd
+  solarNoon: '',
+  civilTwilightBegin: '',
+  civilTwilightEnd: '',
+  loading: false, // Ajout de l'état de chargement
   error: null
 };
 
 export const sunTimesReducer = (state = initialState, action) => {
   switch (action.type) {
+    case 'FETCH_SUN_TIMES_START':
+      return {
+        ...state,
+        loading: true,
+        error: null
+      };
     case 'FETCH_SUN_TIMES_SUCCESS':
       return {
         ...state,
-        sunrise: action.payload.sunrise,
-        sunset: action.payload.sunset,
-        solarNoon: action.payload.solarNoon,  // Mise à jour du zénith
-        civilTwilightBegin: action.payload.civilTwilightBegin,  // Mise à jour des premières lueurs
-        civilTwilightEnd: action.payload.civilTwilightEnd,  // Mise à jour des dernières lueurs
+        ...action.payload,
+        loading: false,
         error: null
       };
     case 'FETCH_SUN_TIMES_ERROR':
       return {
         ...state,
+        loading: false,
         error: action.error
       };
     default:

@@ -1,0 +1,44 @@
+.header-container {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    padding: 1rem 2rem; 
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce pour le header */
+    max-height: 100px;
+  }
+  
+  .logo {
+    display: flex;
+    align-items: center;
+  }
+  
+  .logo img {
+    width: 100%; /* Taille de l'image du logo */
+    height: 100%;
+    margin-right: 0.5rem;
+  }
+  
+  .logo h1 {
+    font-size: 1.5rem;
+    color: #333;
+  }
+  
+  .navigation ul {
+    display: flex;
+    list-style: none;
+  }
+  
+  .navigation li {
+    margin: 0 1rem;
+  }
+  
+  .navigation a {
+    text-decoration: none;
+    color: #0074D9; /* Couleur bleue */
+    font-weight: bold;
+  }
+  
+  .navigation a:hover {
+    text-decoration: underline;
+  }
+  

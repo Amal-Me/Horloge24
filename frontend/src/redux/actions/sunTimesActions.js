@@ -21,3 +21,5 @@ export const fetchSunTimes = (lat, lng) => async (dispatch) => {
     dispatch({ type: 'FETCH_SUN_TIMES_ERROR', error }); // envoi erreur
   }
 };
+
+

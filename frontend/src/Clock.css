@@ -2,7 +2,7 @@
   position: relative;
   width: 600px;
   height: 600px;
-  margin: 20% auto;
+  margin: 5% auto;
 }
 
 /* Style de base de l'horloge */
@@ -70,6 +70,27 @@
   color: rgb(0, 0, 0);
   /*transform: rotate(90deg); /* Ajuste selon les besoins pour corriger l'inversion */
 }
+
+.markerB {
+  position: absolute;
+  width: 50%;
+  height: 2px;
+  background-color: rgba(4, 68, 151, 0.3); /* You can change this color */
+  top: 50%;
+  left: 50%;
+  transform-origin: 0% 50%;
+}
+
+.marker-labelB {
+  position: absolute;
+  top: -8px; /* Ajustez la valeur pour éloigner verticalement le texte */
+  left: 115%;
+  font-size: 15px;
+  font-style: italic;
+  color: rgb(0, 0, 0);
+  white-space: nowrap; /* Empêche le texte de revenir à la ligne */
+  }
+
 .hour-number {
   position: absolute;
   top: 2%;

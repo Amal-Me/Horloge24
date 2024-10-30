@@ -1,13 +1,16 @@
 import React from 'react';
-import SunTimes from './components/SunTimes';
 import Clock from './components/Clock';
+import Header from './components/Header';
+import SunTimes from './components/SunTimes';
 
 function App() {
   return (
     <div className="App">
-      <SunTimes />
-      <h1>Horloge 24 heures</h1>
-      <Clock />
+      <Header />        
+       <main className="main-container">
+       <SunTimes  /> 
+        <Clock />
+      </main>      
     </div>
   );
 }
