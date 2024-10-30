@@ -32,7 +32,7 @@ function calculateCoordinates(angleDegrees, radius) {
   return { x, y };
 }
 
-const HorizonLine = ({ sunriseDegrees, sunsetDegrees, radius }) => {
+const HorizonLine = ({ sunriseDegrees, sunsetDegrees, radius , sunriseTime = '', sunsetTime = '' }) => {
   if (sunriseDegrees === null || sunsetDegrees === null) {
     return null; // Si les degrés sont nuls, ne pas afficher la ligne
   }
@@ -42,8 +42,8 @@ const HorizonLine = ({ sunriseDegrees, sunsetDegrees, radius }) => {
   const sunsetCoords = calculateCoordinates(sunsetDegrees , radius);
 
   // Logs pour voir si les coordonnées sont correctes
-  console.log("Sunrise Coords:", sunriseCoords);
-  console.log("Sunset Coords:", sunsetCoords);
+ // console.log("Sunrise Coords:", sunriseCoords);
+ // console.log("Sunset Coords:", sunsetCoords);
 
   return (
     <div>
@@ -57,7 +57,7 @@ const HorizonLine = ({ sunriseDegrees, sunsetDegrees, radius }) => {
   />
 </svg>
  {/* Label pour "Lever" */}
- <div
+ <div className="marker-labelB"
         style={{
           position: 'absolute',
           left: `${sunriseCoords.x + radius}px`,
@@ -67,11 +67,11 @@ const HorizonLine = ({ sunriseDegrees, sunsetDegrees, radius }) => {
           fontSize: '2rem',
         }}
       >
-        Lever
+         {sunriseTime ? `Lever - ${sunriseTime}` : 'Lever'}
       </div>
 
       {/* Label pour "Coucher" */}
-      <div
+      <div className="marker-labelB"
         style={{
           position: 'absolute',
           left: `${sunsetCoords.x + radius}px`,
@@ -81,7 +81,7 @@ const HorizonLine = ({ sunriseDegrees, sunsetDegrees, radius }) => {
           fontSize: '2rem',
         }}
       >
-        Coucher
+         {sunsetTime ? `Coucher - ${sunsetTime}` : 'Coucher'}
       </div>
       {/* Date actuelle au-dessus de la ligne */}
       <div

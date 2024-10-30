@@ -1,13 +1,26 @@
 import React, { useState, useEffect } from 'react';
-import { useSelector} from 'react-redux';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment-timezone';
 import HorizonLine from './HorizonLine';
+import { fetchSunTimes } from '../redux/actions/sunTimesActions';
 import './../Clock.css';
 
 function Clock() {
   const [time, setTime] = useState(moment.tz(new Date(), moment.tz.guess()));
+  const dispatch = useDispatch();
   // Récupérer les données du store Redux
-  const {sunrise, sunset, solarNoon, civilTwilightBegin, civilTwilightEnd} = useSelector((state) => state.sunTimes);  
+  const {sunrise, sunset, solarNoon, civilTwilightBegin, civilTwilightEnd, error} = useSelector((state) => state.sunTimes);  
+
+   // Gérer la géolocalisation et déclencher l'action pour récupérer les horaires solaires
+   useEffect(() => {
+    navigator.geolocation.getCurrentPosition(
+      (position) => {
+        const { latitude, longitude } = position.coords;
+        dispatch(fetchSunTimes(latitude, longitude));
+      },
+      (error) => console.error('Erreur de géolocalisation :', error)
+    );
+  }, [dispatch]);
 
   // Mettre à jour l'heure actuelle toutes les minutes
   useEffect(() => {
@@ -26,11 +39,12 @@ function Clock() {
   const radius = 300; // Rayon de l'horloge
 
   // Convertir les événements solaires en heures locales (fuseau horaire)
-  const sunriseDate = sunrise ? moment.tz(sunrise, moment.tz.guess()) : null;
-  const sunsetDate = sunset ? moment.tz(sunset, moment.tz.guess()) : null;
-  const solarNoonDate = solarNoon ? moment.tz(solarNoon, moment.tz.guess()) : null;
-  const civilTwilightBeginDate = civilTwilightBegin ? moment.tz(civilTwilightBegin, moment.tz.guess()) : null;
-  const civilTwilightEndDate = civilTwilightEnd ? moment.tz(civilTwilightEnd, moment.tz.guess()) : null;
+  const userTimeZone = moment.tz.guess();
+  const sunriseDate = sunrise ? moment.utc(sunrise).tz(userTimeZone) : null;
+  const sunsetDate = sunset ? moment.utc(sunset).tz(userTimeZone) : null;
+  const solarNoonDate = solarNoon ? moment.utc(solarNoon).tz(userTimeZone) : null;
+  const civilTwilightBeginDate = civilTwilightBegin ? moment.utc(civilTwilightBegin).tz(userTimeZone) : null;
+  const civilTwilightEndDate = civilTwilightEnd ? moment.utc(civilTwilightEnd).tz(userTimeZone) : null;
 
   // Angle du zénith (référence à 0°)
   const solarNoonDegrees = solarNoonDate ? timeToDegrees(solarNoonDate.hours(), solarNoonDate.minutes()) : null;
@@ -44,8 +58,7 @@ function Clock() {
 
     // Calculer l'angle de l'aiguille pour l'heure actuelle avec ajustement
     const currentHours = time.hours();
-    const currentMinutes = time.minutes();
-    
+    const currentMinutes = time.minutes();    
     // Calculer l'angle de l'aiguille pour l'heure actuelle avec l'ajustement corrigé
     const currentDegrees = (timeToDegrees(currentHours, currentMinutes) + correctedAdjustment) % 360;
   
@@ -68,7 +81,14 @@ const backgroundStyle = {
     )`,
   };
  
-  
+  // Affichage conditionnel en cas d'erreur ou de données non prêtes
+  if (error) {
+    return <p>Erreur: {error.message}</p>;
+  }
+
+  console.log("Sunrise Time:", sunrise ? moment.tz(sunrise, moment.tz.guess()).format('HH:mm') : '');
+console.log("Sunset Time:", sunset ? moment.tz(sunset, moment.tz.guess()).format('HH:mm') : '');
+
   return (
     <div className="clock-container">
     <div className="clock" style={backgroundStyle}>
@@ -89,7 +109,7 @@ const backgroundStyle = {
       {/* Le repère du zénith, toujours en haut */}
       {solarNoonDegrees !== null && (
         <div className="marker" style={{ transform: `rotate(-90deg)` }}>
-          <div className="marker-label"style={{ transform: 'rotate(90deg)' }}>Zénith</div>
+          <div className="marker-label"style={{ transform: 'rotate(90deg)' }}>Zénith {solarNoonDate.format('HH[h]mm')}</div>
         </div>
       )}
 
@@ -97,20 +117,27 @@ const backgroundStyle = {
       {civilTwilightBeginDegrees !== null && (
         <div className="markerB" style={{ transform: `rotate(${civilTwilightBeginDegrees}deg)` }}>
           {/* on déduit l'angle du marker pour le positionner à l'horizontal pr + de lisibilité */}
-          <div className="marker-labelB" style={{ transform: `rotate(${- civilTwilightBeginDegrees}deg)` }}>Premières lueurs </div>
+          <div className="marker-labelB" style={{ transform: `rotate(${- civilTwilightBeginDegrees}deg)` }}>Premières lueurs - {civilTwilightBeginDate.format('HH[h]mm')} </div>
         </div>
       )}
 
       {/* markers pour les dernières lueurs */}
       {civilTwilightEndDegrees !== null && (
         <div className="markerB" style={{ transform: `rotate(${civilTwilightEndDegrees}deg)` }}>
-          <div className="marker-labelB"style={{ transform: `rotate(${-civilTwilightEndDegrees}deg)` }}>Dernières lueurs</div>
+          <div className="marker-labelB"style={{ transform: `rotate(${-civilTwilightEndDegrees}deg)` }}>Dernières lueurs - {civilTwilightEndDate.format('HH[h]mm')}</div>
         </div>
       )}
 
 
        {/* Ajouter la ligne horizontale */}
-       <HorizonLine sunriseDegrees={sunriseDegrees} sunsetDegrees={sunsetDegrees} radius={radius} />
+       <HorizonLine 
+      sunriseDegrees={sunriseDegrees}
+      sunsetDegrees={sunsetDegrees}
+      radius={radius}
+      sunriseTime={sunrise ? moment.tz(sunrise, moment.tz.guess()).format('HH:mm') : ''}
+      sunsetTime={sunset ? moment.tz(sunset, moment.tz.guess()).format('HH:mm') : ''}
+      />
+
     </div>
   </div>
   );
