@@ -3,19 +3,20 @@
     justify-content: space-between;
     align-items: center;
     padding: 1rem 2rem; 
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1); /* Ombre douce pour le header */
+    box-shadow: 0 6px 10px rgba(0, 0, 0, 0.3); /* Ombre douce pour le header */
     max-height: 100px;
+    background-color: rgba(171,196,231, 0.5);
   }
   
   .logo {
     display: flex;
     align-items: center;
+    width: 60%;
   }
   
   .logo img {
     width: 100%; /* Taille de l'image du logo */
     height: 100%;
-    margin-right: 0.5rem;
   }
   
   .logo h1 {
@@ -25,7 +26,7 @@
   
   .navigation ul {
     display: flex;
-    list-style: none;
+    list-style: none;    
   }
   
   .navigation li {
@@ -34,7 +35,7 @@
   
   .navigation a {
     text-decoration: none;
-    color: #0074D9; /* Couleur bleue */
+    color: black;
     font-weight: bold;
   }
   
