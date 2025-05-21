@@ -33,7 +33,6 @@ Développer une horloge numérique interactive basée sur un format de 24 heures
 
 ### 2.4. Moments clés
 - Marqueurs pour le lever du soleil, le zénith, et le coucher du soleil avec une ligne perpendiculaire de l'horizon vers le zénith.
-- Possibilité d'afficher les horaires de prière islamiques associés à ces moments.
 
 ### 2.5. Affichage de la date
 - Affichage de la date sur la ligne d'horizon.
